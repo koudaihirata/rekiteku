@@ -13,7 +13,7 @@ export default function LeadText() {
                 _after: {
                     content:'""',
                     position:'absolute',
-                    top:'0',
+                    top:'-14px',
                     right:'8%',
                     width:'500px',
                     height:'500px',
