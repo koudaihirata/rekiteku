@@ -1,9 +1,10 @@
 // app/components/Notes.tsx
 "use client";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { css } from '../../styled-system/css';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Item = {
     title: string[];
@@ -60,20 +61,25 @@ export default function Notes() {
                 <div className={css({w:'100%',display:'flex',justifyContent:'space-between',gap:'35px',mt:'12px',flexWrap:'wrap'})}>
                     {items.length > 0 ? (
                         items.map((item) => (
-                        <article key={item.guid[0]} className={css({width:'350px',height:'400px',bgColor:'white',rounded:'8px'})}>
-                            <img src={item['media:thumbnail'][0]} alt={item.title[0]} className={css({rounded:'8px 8px 0 0'})}/>
-                            <div className={css({w:'90%',m:'0 auto'})}>
-                                <div className={css({display:'flex',alignItems:'center'})}>
-                                    <div className={css({display:'flex',alignItems:'center',mt:'16px',gap:'8px'})}>
-                                        <Image src='/歴てくロゴ.png' alt='歴てくロゴ' width={32} height={32}/>
-                                        <p>{item['note:creatorName'][0]}</p>
-                                    </div>
-                                    <time>{formatDate(item.pubDate[0])}</time>
-                                </div>
-                                <h4 className={css({fontSize:'20px',fontWeight:'bold'})}>{item.title[0]}</h4>
-                                {/* <div>{parseHtml(item.description[0], item.guid[0])}</div> */}
-                            </div>
-                        </article>
+                            <Link key={item.guid[0]}  href={item.guid[0]} legacyBehavior passHref>
+                                <a target="_blank" rel="noopener noreferrer" href={item.guid[0]}>
+                                    <article className={css({width:'320px',height:'410px',bgColor:'white',rounded:'8px',boxShadow:'0px 2px 8px 0px rgba(0, 0, 0, 0.10)'})}>
+                                        <img src={item['media:thumbnail'][0]} alt={item.title[0]} className={css({rounded:'8px 8px 0 0'})}/>
+                                        <div className={css({w:'90%',m:'0 auto'})}>
+                                            <div className={css({display:'flex',alignItems:'center',mt:'16px',justifyContent:'space-between'})}>
+                                                <div className={css({display:'flex',alignItems:'center',gap:'8px'})}>
+                                                    <Image src='/歴てくロゴ.png' alt='歴てくロゴ' width={32} height={32}/>
+                                                    <p>{item['note:creatorName'][0]}</p>
+                                                </div>
+                                                <time>{formatDate(item.pubDate[0])}</time>
+                                            </div>
+                                            <h4 className={css({fontSize:'20px',fontWeight:'bold',mt:'18px'})}>{item.title[0]}</h4>
+                                            <p className={css({height:'6rem',overflow:'hidden'})}>{parseHtml(item.description[0], item.guid[0])}</p>
+                                            <p className={css({color:'#F19813',textAlign:'center',mt:'6px'})}>続きを見る</p>
+                                        </div>
+                                    </article>
+                                </a>
+                            </Link>
                         ))
                     ) : (
                         <p>読み込み中...</p> // データがない場合の表示
@@ -85,30 +91,17 @@ export default function Notes() {
 }
 
 function parseHtml(htmlString: string, parentKey: string): React.ReactNode[] {
-const doc = new DOMParser().parseFromString(htmlString, 'text/html');
-return Array.from(doc.body.childNodes).map((node, index) => {
-    const key = `${parentKey}-${index}`;
-    if (node.nodeType === Node.TEXT_NODE) {
-    return <span key={key}>{node.textContent}</span>;
-    }
-    if (node.nodeType === Node.ELEMENT_NODE) {
-    const element = node as HTMLElement;
-    const tagName = element.tagName.toLowerCase();
+    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    // <p>タグ全てを取得
+    const pElements = doc.querySelectorAll('p');
 
-    const attributes: { [key: string]: string } = {};
-    for (const attr of Array.from(element.attributes)) {
-        attributes[attr.name] = attr.value;
-    }
-
-    const voidElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-    if (voidElements.includes(tagName)) {
-        return React.createElement(tagName, { key, ...attributes });
-    }
-
-    const children: React.ReactNode[] = parseHtml(element.innerHTML, key);
-
-    return React.createElement(tagName, { key, ...attributes }, children);
-    }
-    return null;
-});
+    // React要素の配列を生成
+    return Array.from(pElements).map((element, index) => {
+        const key = `${parentKey}-${index}`;
+        const id = element.getAttribute('id'); // <p>タグのIDを取得
+        if (id) { // IDが存在する場合のみ、その<p>タグの内容を表示
+            return <p key={key} id={id}>{element.textContent}</p>;
+        }
+        return null; // IDがない場合は表示しない
+    }).filter(Boolean); // nullをフィルタリングして削除
 }
