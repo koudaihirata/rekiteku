@@ -44,7 +44,7 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className={css({width:'100%',height:'70px',bg:'#F19813'})}>
+                <div className={css({width:'100%',height:'70px',bg:'#F19813',mt:'64px'})}>
                     <div className={css({width:'85%',height:'100%',m:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between'})}>
                         <div className={css({display:'flex',gap:'24px'})}>
                             <Link href='#'><p className={css({color:'white',textDecoration:'underline'})}>プライバシーポリシー</p></Link>
