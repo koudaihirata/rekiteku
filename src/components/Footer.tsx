@@ -4,6 +4,10 @@ import Link from "next/link";
 
 
 export default function Footer() {
+    const NoteURL = "https://note.com/reki_teku0531/";
+    const FacebookURL = "#";
+    const XURL = "#";
+    const InstagramURL = "#";
     const completionNumber = "00-00-000000";
 
     return(
@@ -28,10 +32,10 @@ export default function Footer() {
                     </div>
                     <div className={css({width:'40%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'})}>
                         <div className={css({display:'flex',gap:'50px'})}>
-                            <Image src='/NoteIcon.svg' alt="NoteIcon" width={50} height={50} />
-                            <Image src='/FacebookIcon.svg' alt="NoteIcon" width={50} height={50} />
-                            <Image src='/XIcon.svg' alt="NoteIcon" width={50} height={50} />
-                            <Image src='/InstagramIcon.svg' alt="NoteIcon" width={50} height={50} />
+                        <Link href={NoteURL} ><Image src='/NoteIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
+                        <Link href={FacebookURL} ><Image src='/FacebookIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
+                        <Link href={XURL} ><Image src='/XIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
+                        <Link href={InstagramURL} ><Image src='/InstagramIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
                         </div>
                         <p className={css({fontSize:'20px',mt:'50px'})}>お問い合わせはこちら</p>
                         <div className={css({width:'400px',height:'100px',bg:'#F3F3F3',display:'flex',alignItems:'center',justifyContent:'center',gap:'10px'})}>
