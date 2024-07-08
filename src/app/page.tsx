@@ -11,8 +11,8 @@ export default function Home() {
     <main>
       <FirstView/>
       <LeadText/>
+      <div className={css({ fontSize: "2xl", fontWeight: 'bold' })}>Hello 🐼!ホンダのコンポーネントが入る場所</div>
       <Profile/>
-      <div className={css({ fontSize: "2xl", fontWeight: 'bold' })}>Hello 🐼!</div>
       <Footer/>
     </main>
   );
