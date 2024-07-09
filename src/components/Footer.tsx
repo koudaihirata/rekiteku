@@ -32,10 +32,26 @@ export default function Footer() {
                     </div>
                     <div className={css({width:'40%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'})}>
                         <div className={css({display:'flex',gap:'50px'})}>
-                        <Link href={NoteURL} ><Image src='/NoteIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
-                        <Link href={FacebookURL} ><Image src='/FacebookIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
-                        <Link href={XURL} ><Image src='/XIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
-                        <Link href={InstagramURL} ><Image src='/InstagramIcon.svg' alt="NoteIcon" width={50} height={50} /></Link>
+                        <Link href={NoteURL} legacyBehavior passHref>
+                            <a target="_blank" rel="noopener noreferrer" href={NoteURL}>
+                                <Image src='/NoteIcon.svg' alt="NoteIcon" width={50} height={50} />
+                            </a>
+                        </Link>
+                        <Link href={FacebookURL} legacyBehavior passHref>
+                            <a href={FacebookURL} target="_blank" rel="noopener noreferrer">
+                                <Image src='/FacebookIcon.svg' alt="NoteIcon" width={50} height={50} />
+                            </a>
+                        </Link>
+                        <Link href={XURL} legacyBehavior passHref>
+                            <a href={XURL} target="_blank" rel="noopener noreferrer">
+                                <Image src='/XIcon.svg' alt="NoteIcon" width={50} height={50} />
+                            </a>
+                        </Link>
+                        <Link href={InstagramURL} legacyBehavior passHref>
+                            <a href={InstagramURL} target="_blank" rel="noopener noreferrer">
+                                <Image src='/InstagramIcon.svg' alt="NoteIcon" width={50} height={50} />
+                            </a>
+                        </Link>
                         </div>
                         <p className={css({fontSize:'20px',mt:'50px'})}>お問い合わせはこちら</p>
                         <div className={css({width:'400px',height:'100px',bg:'#F3F3F3',display:'flex',alignItems:'center',justifyContent:'center',gap:'10px'})}>
