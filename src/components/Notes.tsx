@@ -56,11 +56,11 @@ export default function Notes() {
 
     return (
         <div className={css({width:'100%',bg:'#FFFCF1',h:'70vh'})}>
-            <section className={css({width:'70%',height:'510',margin:'0 auto',rounded:'40px',bgColor:'#F19813',p:'20px 40px'})}>
+            <section className={css({width:'fit-content',height:'510',margin:'0 auto',rounded:'40px',bgColor:'#F19813',p:'20px 40px'})}>
                 <h3 className={css({fontSize:'28px',fontWeight:'semibold',color:'white'})}>公式ブログ（Note）</h3>
-                <div className={css({w:'100%',display:'flex',justifyContent:'space-between',gap:'35px',mt:'12px',flexWrap:'wrap'})}>
+                <div className={css({w:'100%',display:'flex',gap:'35px',mt:'12px',flexWrap:'wrap'})}>
                     {items.length > 0 ? (
-                        items.map((item) => (
+                        items.slice(0, 3).map((item) => (
                             <Link key={item.guid[0]}  href={item.guid[0]} legacyBehavior passHref>
                                 <a target="_blank" rel="noopener noreferrer" href={item.guid[0]}>
                                     <article className={css({width:'320px',height:'410px',bgColor:'white',rounded:'8px',boxShadow:'0px 2px 8px 0px rgba(0, 0, 0, 0.10)'})}>
