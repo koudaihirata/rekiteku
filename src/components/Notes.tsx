@@ -55,7 +55,7 @@ export default function Notes() {
     }, []);
 
     return (
-        <div className={css({width:'100%'})}>
+        <div className={css({width:'100%',bg:'#FFFCF1',h:'70vh'})}>
             <section className={css({width:'70%',height:'510',margin:'0 auto',rounded:'40px',bgColor:'#F19813',p:'20px 40px'})}>
                 <h3 className={css({fontSize:'28px',fontWeight:'semibold',color:'white'})}>公式ブログ（Note）</h3>
                 <div className={css({w:'100%',display:'flex',justifyContent:'space-between',gap:'35px',mt:'12px',flexWrap:'wrap'})}>
