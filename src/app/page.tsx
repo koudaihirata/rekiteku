@@ -12,7 +12,6 @@ export default function Home() {
       <FirstView/>
       <LeadText/>
       <Profile/>
-      <div className={css({ fontSize: "2xl", fontWeight: 'bold' })}>Hello 🐼!</div>
       <Footer/>
     </main>
   );

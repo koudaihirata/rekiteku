@@ -13,7 +13,7 @@ export default function Footer() {
     return(
         <>
             <footer className={css({width:'100%'})}>
-                <div className={css({width:'85%',m:'0 auto',display:'flex'})}>
+                <div className={css({width:'85%',m:'68px auto 0',display:'flex'})}>
                     <div className={css({width:'60%'})}>
                         <Image src='/FooterLogo.svg' alt="歴てくロゴ" width={263} height={104}/>
                         <div className={css({display:'flex',alignItems:'center',gap:'40px',mt:'30px'})}>
