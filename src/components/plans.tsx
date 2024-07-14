@@ -1,61 +1,15 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import type {
-	ReactNode,
-	MouseEventHandler,
-	Key,
-	KeyboardEventHandler,
-	MouseEvent,
-} from "react";
-import Slider from "react-slick";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import styles from "@/styles/plans.module.scss";
-import "@/styles/custom-slick.scss";
-
-interface ArrowProps {
-	onClick?: MouseEventHandler<HTMLDivElement>;
-}
-
-function NextArrow(props: ArrowProps) {
-	const { onClick } = props;
-	return (
-		<div
-			className={`${styles.arrow} ${styles.next}`}
-			onClick={onClick}
-			onKeyDown={(e) => {
-				if (e.key === "Enter" && onClick) {
-					onClick(e as unknown as MouseEvent<HTMLDivElement>);
-				}
-			}}
-		>
-			<img src="/arrow-left.svg" alt="arrow-left" />
-		</div>
-	);
-}
-
-function PrevArrow(props: ArrowProps) {
-	const { onClick } = props;
-	return (
-		<div
-			className={`${styles.arrow} ${styles.prev}`}
-			onClick={onClick}
-			onKeyDown={(e) => {
-				if (e.key === "Enter" && onClick) {
-					onClick(e as unknown as MouseEvent<HTMLDivElement>);
-				}
-			}}
-		>
-			<img src="/arrow-right.svg" alt="arrow-right" />
-		</div>
-	);
-}
+// import styles from "@/styles/plans.module.scss";
+import { css } from "../../styled-system/css";
+// import "@/styles/custom-slick.scss";
 
 export default function Plans() {
 	const Plans = [
 		{
 			title: "博多の歴史",
+			description: "古代から平安まで、時間の流れに沿って学べる福岡での旅行",
 			img: "/plans/plan1.jpg",
 			price: 1000,
 			places: [
@@ -109,47 +63,158 @@ export default function Plans() {
 			price: 3000,
 		},
 	];
-	const observerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-	const settings = {
-		dots: true,
-		infinite: true,
-		speed: 500,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		arrows: true,
-		nextArrow: <NextArrow />,
-		prevArrow: <PrevArrow />,
-		appendDots: (dots: ReactNode) => (
-			<div>
-				<ul>{dots}</ul>
-			</div>
-		),
-		customPaging: (i: number) => <p>{Plans[i].title}</p>,
-	};
+	const [currentSlide, setCurrentSlide] = useState(0);
+
+	function NextSlide() {
+		setCurrentSlide((prev) => (prev === Plans.length - 1 ? 0 : prev + 1));
+	}
+
+	function PrevSlide() {
+		setCurrentSlide((prev) => (prev === 0 ? Plans.length - 1 : prev - 1));
+	}
 
 	return (
-		<Slider {...settings} className={styles.plans}>
-			{Plans.map((plan) => (
-				<div key={plan.title} className={styles.plan}>
-					<div className={styles.planSlider}>
-						<img src={plan.img} alt="" />
-						<h3>{plan.title}</h3>
-						<p>{plan.price}</p>
-					</div>
-					<div className={styles.places}>
-						<div className={styles.places}>
-							{plan.places?.map((place) => (
-								<div key={place.name} className={styles.place}>
-									<img src={place.img} alt={place.name} />
-									<h4>{place.name}</h4>
-									<p>{place.description}</p>
-								</div>
-							))}
-						</div>
-					</div>
+		<div>
+			<div
+				className={css({
+					h: "500px",
+					mb: "80px",
+					pos: "relative",
+				})}
+			>
+				<img
+					src={Plans[currentSlide].img}
+					alt=""
+					className={css({
+						pos: "absolute",
+						zIndex: "-1",
+						w: "100%",
+						h: "100%",
+						objectFit: "cover",
+					})}
+				/>
+				<h3>{Plans[currentSlide].title}</h3>
+				<p>{Plans[currentSlide].description}</p>
+				<p>{Plans[currentSlide].price}</p>
+				<button
+					className={css({
+						w: "40px",
+						h: "40px",
+						pos: "absolute",
+						top: "250px",
+						transform: "translateY(-50%)",
+						zIndex: "1",
+						cursor: "pointer",
+						left: "16px",
+					})}
+					onClick={PrevSlide}
+					type="button"
+				>
+					<img
+						src="/arrow-right.svg"
+						alt=""
+						className={css({
+							w: "100%",
+							h: "100%",
+							objectFit: "contain",
+						})}
+					/>
+				</button>
+				<button
+					className={css({
+						w: "40px",
+						h: "40px",
+						pos: "absolute",
+						top: "250px",
+						transform: "translateY(-50%)",
+						zIndex: "1",
+						cursor: "pointer",
+						right: "16px",
+					})}
+					onClick={NextSlide}
+					type="button"
+				>
+					<img
+						src="/arrow-left.svg"
+						alt=""
+						className={css({
+							w: "100%",
+							h: "100%",
+							objectFit: "contain",
+						})}
+					/>
+				</button>
+				<div
+					className={css({
+						h: "80px",
+						w: "100%",
+						display: "flex",
+						pos: "absolute",
+						top: "100%",
+						p: "8px",
+						gap: "16px",
+					})}
+				>
+					{Plans.map((plans, index) => (
+						<button
+							type="button"
+							key={plans.title}
+							className={css({
+								display: "grid",
+								placeItems: "center",
+								h: "100%",
+								w: "100%",
+								borderRadius: "8px",
+								transition: "all .2s",
+								pos: "relative",
+								bgColor: currentSlide === index ? "#F19813" : "transparent",
+								color: currentSlide === index ? "#fff" : "inherit",
+							})}
+							onClick={() => setCurrentSlide(index)}
+						>
+							{plans.title}
+							{index !== Plans.length - 1 && (
+								<div
+									className={css({
+										pos: "absolute",
+										left: "calc(100% + 8px - 2px)",
+										content: "''",
+										w: "4px",
+										h: "80%",
+										borderRadius: "50vw",
+										bg: "#eee",
+									})}
+								/>
+							)}
+						</button>
+					))}
 				</div>
-			))}
-		</Slider>
+			</div>
+			<div
+				className={css({
+					w: "100%",
+					// h: "100vh",
+					// display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					// overflow: "hidden",
+				})}
+			>
+				{Plans[currentSlide].places?.map((place) => (
+					<div key={place.name} className={css({ minW: "100%" })}>
+						<h4>{place.name}</h4>
+						<div className={css({ w: "50px", h: "50px" })}>
+							<img
+								src={place.img}
+								alt={place.name}
+								className={css({ w: "100%", h: "100%", objectFit: "cover" })}
+							/>
+						</div>
+						<p>{place.description}</p>
+					</div>
+				))}
+			</div>
+		</div>
 	);
 }
