@@ -47,7 +47,7 @@ export default function Notes() {
     useEffect(() => {
         const fetchData = async () => {
         const fetchedItems = await fetchRSSFeed();
-        console.log(fetchedItems); // 追加: フェッチしたデータをコンソールに出力
+        console.log(fetchedItems); 
         setItems(fetchedItems);
         };
 
