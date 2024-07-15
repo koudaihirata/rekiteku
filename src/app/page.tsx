@@ -18,7 +18,12 @@ export default function Home() {
 			<Header />
 			<FirstView />
 			<LeadText />
-			<Plans />
+			{/* <Plans /> */}
+			<img
+				src="/dummy.png"
+				alt=""
+				style={{ width: "80%", margin: "64px auto" }}
+			/>
 			<Profile />
 			<Notes />
 			<Footer />
