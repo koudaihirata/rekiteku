@@ -5,7 +5,7 @@ import { css } from "../../styled-system/css";
 export default function Profile() {
     return(
         <>
-            <div className={css({width:'100%',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'})}>
+            <div className={css({width:'100%',h:'100vh',display:'flex',alignItems:'center',justifyContent:'center'})}>
                 <div className={css({w:'85%',maxW:'1200px',h:'540px',m:'0 auto',bg:'#F19813',rounded:'40px',display:'flex',p:'16px'})}>
                     <Image src='/Profilephoto.png' alt="写真" width={450} height={500} className={css({w:'40%',h:'100%'})}/>
                     <section className={css({w:'60%',p:'16px 16px 0 16px'})}>
