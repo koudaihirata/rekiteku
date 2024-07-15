@@ -14,7 +14,7 @@ export default function LeadText() {
                     content:'""',
                     position:'absolute',
                     top:'0',
-                    right:'8%',
+                    right:'0',
                     width:'500px',
                     height:'500px',
                     bgImage:'url(/Footprints.svg)',
