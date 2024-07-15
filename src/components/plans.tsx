@@ -65,6 +65,7 @@ export default function Plans() {
 	];
 
 	const [currentSlide, setCurrentSlide] = useState(0);
+	const placesRef = useRef<HTMLDivElement>(null);
 
 	function NextSlide() {
 		setCurrentSlide((prev) => (prev === Plans.length - 1 ? 0 : prev + 1));
@@ -73,6 +74,23 @@ export default function Plans() {
 	function PrevSlide() {
 		setCurrentSlide((prev) => (prev === 0 ? Plans.length - 1 : prev - 1));
 	}
+
+	useEffect(() => {
+		const handleScroll = () => {
+			console.log("Scroll Y:", window.scrollY);
+			console.log("Scroll X:", window.scrollX);
+		};
+		window.addEventListener("scroll", handleScroll);
+
+		if (placesRef.current) {
+			const rect = placesRef.current.getBoundingClientRect();
+			console.log("placesRef position:", rect);
+		}
+
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []);
 
 	return (
 		<div>
@@ -194,15 +212,19 @@ export default function Plans() {
 			<div
 				className={css({
 					w: "100%",
-					// h: "100vh",
-					// display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					// overflow: "hidden",
+					overflowX: "hidden",
+					display: "flex",
 				})}
+				style={{
+					height: `${100 * ((Plans[currentSlide].places?.length ?? 0) + 1)}vh`,
+				}}
+				ref={placesRef}
 			>
 				{Plans[currentSlide].places?.map((place) => (
-					<div key={place.name} className={css({ minW: "100%" })}>
+					<div
+						key={place.name}
+						className={css({ minW: "100%", w: "100%", h: "100vh" })}
+					>
 						<h4>{place.name}</h4>
 						<div className={css({ w: "50px", h: "50px" })}>
 							<img
