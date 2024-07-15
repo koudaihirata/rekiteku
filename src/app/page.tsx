@@ -10,17 +10,18 @@ import LeadText from "@/components/LeadText";
 import Plans from "@/components/plans";
 import Notes from "@/components/Notes";
 import Footer from "@/components/Footer";
+import Header from "@/components/header";
 
 export default function Home() {
-  return (
-    <main>
-      <FirstView/>
-      <LeadText/>
-      <Plans />
-      <Profile/>
-      <Notes/>
-      <Footer/>
-    </main>
-  );
+	return (
+		<main>
+			<Header />
+			<FirstView />
+			<LeadText />
+			<Plans />
+			<Profile />
+			<Notes />
+			<Footer />
+		</main>
+	);
 }
-
