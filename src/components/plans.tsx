@@ -3,14 +3,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { css } from "../../styled-system/css";
 import Link from "next/link";
+import { flex } from "../../styled-system/patterns";
 
 export default function Plans() {
 	const Plans = [
 		{
-			title: "博多の歴史　古代〜平安",
-			description: "古代から平安まで、時間の流れに沿って学べる福岡での旅行",
+			title: "博多の歴史",
+			subTitle: "古代〜平安",
+			description: "古代から平安まで、時間の流れに沿って学べる博多旅行",
 			img: "/plans/plan1.jpg",
-			price: 1000,
+			days: "2泊3日",
+			periodStart: "2024年1月1日",
+			price: "20,000円",
+			people: "1~6人",
+
 			places: [
 				{
 					name: "板付遺跡",
@@ -63,9 +69,10 @@ export default function Plans() {
 			],
 		},
 		{
-			title: "博多の歴史　室町〜江戸",
+			title: "博多の歴史",
+			subTitle: "室町〜江戸",
 			img: "/plans/plan1.jpg",
-			price: 2000,
+
 			places: [
 				{
 					name: "四王寺城",
@@ -120,7 +127,6 @@ export default function Plans() {
 		{
 			title: "偉人の道のり",
 			img: "/plans/plan1.jpg",
-			price: 3000,
 			places: [
 				{
 					name: "立花山城",
@@ -230,19 +236,27 @@ export default function Plans() {
 
 	return (
 		<div
+			id="plans"
 			className={css({
 				bg: "#FFFCF1",
-				pb: "64px",
+				// pb: "64px",
+				scrollBehavior: "smooth",
 			})}
 		>
 			<div
 				className={css({
 					h: "500px",
 					// mb: "80px",
-					pos: "relative",
+					// pos: "relative",
+					// bg: "#F19813",
+					// bg: `url('${Plans[currentPlan].img}')`,
 				})}
+				style={{
+					// background: `url('${Plans[currentPlan].img}') center center / cover`,
+					background: `linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), url('${Plans[currentPlan].img}') center center / cover`,
+				}}
 			>
-				<img
+				{/* <img
 					src={Plans[currentPlan].img}
 					alt=""
 					className={css({
@@ -251,16 +265,60 @@ export default function Plans() {
 						h: "100%",
 						objectFit: "cover",
 					})}
-				/>
+				/> */}
 				<div
 					className={css({
 						pos: "relative",
 						zIndex: "1",
 					})}
 				>
-					<h3>{Plans[currentPlan].title}</h3>
-					<p>{Plans[currentPlan].description}</p>
-					<p>{Plans[currentPlan].price}</p>
+					<div
+						className={css({
+							p: "16px",
+							color: "#fff",
+							fontWeight: "bold",
+							lineHeight: 1,
+							display: "flex",
+							flexDirection: "column",
+							gap: "8px",
+						})}
+					>
+						<div className={flex({ alignItems: "flex-end", gap: "16px" })}>
+							<h3
+								className={css({
+									fontSize: "64px",
+									w: "fit-content",
+								})}
+							>
+								{Plans[currentPlan].title}
+							</h3>
+							<p
+								className={css({
+									fontSize: "24px",
+									fontWeight: "bold",
+									w: "fit-content",
+								})}
+							>
+								{Plans[currentPlan].subTitle}
+							</p>
+						</div>
+						<p
+							className={css({
+								fontSize: "32px",
+								fontWeight: "bold",
+								mb: "16px",
+							})}
+						>
+							{Plans[currentPlan].days}
+						</p>
+						<p
+							className={css({
+								// lineHeight: 0,
+							})}
+						>
+							{Plans[currentPlan].description}
+						</p>
+					</div>
 				</div>
 				<button
 					className={css({
@@ -330,51 +388,65 @@ export default function Plans() {
 						overflow: "hidden",
 					})}
 				>
-					<div
-						className={css({
-							h: "80px",
-							w: "100%",
-							display: "flex",
-							pos: "absolute",
-							p: "8px",
-							gap: "16px",
-							top: 0,
-						})}
-					>
-						{Plans.map((plans, index) => (
-							<button
-								type="button"
-								key={plans.title}
-								className={css({
-									display: "grid",
-									placeItems: "center",
-									h: "100%",
-									w: "100%",
-									borderRadius: "8px",
-									transition: "all .2s",
-									pos: "relative",
-									bgColor: currentPlan === index ? "#F19813" : "transparent",
-									color: currentPlan === index ? "#fff" : "inherit",
-								})}
-								onClick={() => setCurrentPlan(index)}
-							>
-								{plans.title}
-								{index !== Plans.length - 1 && (
-									<div
+					<a href="#plans">
+						<div
+							className={css({
+								h: "80px",
+								w: "100%",
+								display: "flex",
+								pos: "absolute",
+								p: "8px",
+								gap: "16px",
+								top: 0,
+								bg: "#fff",
+							})}
+						>
+							{Plans.map((plans, index) => (
+								<button
+									type="button"
+									key={plans.title}
+									className={css({
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										gap: "8px",
+										h: "100%",
+										w: "100%",
+										borderRadius: "8px",
+										transition: "all .2s",
+										pos: "relative",
+										fontSize: "20px",
+										fontWeight: "bold",
+										bgColor: currentPlan === index ? "#F19813" : "transparent",
+										color: currentPlan === index ? "#fff" : "inherit",
+									})}
+									onClick={() => setCurrentPlan(index)}
+								>
+									{plans.title}
+									<span
 										className={css({
-											pos: "absolute",
-											left: "calc(100% + 8px - 2px)",
-											content: "''",
-											w: "4px",
-											h: "80%",
-											borderRadius: "50vw",
-											bg: "#eee",
+											fontSize: "16px",
 										})}
-									/>
-								)}
-							</button>
-						))}
-					</div>
+									>
+										{plans.subTitle}
+									</span>
+									{index !== Plans.length - 1 && (
+										<div
+											className={css({
+												pos: "absolute",
+												left: "calc(100% + 8px - 2px)",
+												content: "''",
+												w: "4px",
+												h: "80%",
+												borderRadius: "50vw",
+												bg: "#eee",
+											})}
+										/>
+									)}
+								</button>
+							))}
+						</div>
+					</a>
 					<div
 						className={css({
 							pos: "absolute",
@@ -441,13 +513,15 @@ export default function Plans() {
 									<h4
 										className={css({
 											pos: "absolute",
+											top: "-16px",
+											left: "-16px",
 											fontSize: "40px",
 											color: "#fff",
 											bg: "#F19813",
 											roundedBottomRight: "26px",
-											roundedTopLeft: "10px",
+											roundedTopLeft: "40px",
 											fontWeight: "bold",
-											p: "0 32px",
+											p: "8px 32px",
 										})}
 									>
 										{place.name}
@@ -489,8 +563,43 @@ export default function Plans() {
 					</div>
 				</div>
 			</div>
+			<table
+				className={css({
+					m: "32px auto",
+					fontSize: "18px",
+					"& th": {
+						p: "16px 0",
+						textAlignLast: "justify",
+						"&::after": {
+							content: "''",
+							display: "block",
+							width: "100%",
+							height: "4px",
+							bg: "#F19813",
+							rounded: "50vh",
+						},
+					},
+					"& td": {
+						p: "16px 0 ",
+						pl: "32px",
+					},
+				})}
+			>
+				<tr>
+					<th>日付</th>
+					<td>{`${Plans[currentPlan].days}(${Plans[currentPlan].periodStart}から)`}</td>
+				</tr>
+				<tr>
+					<th>募集人数</th>
+					<td>{Plans[currentPlan].people}</td>
+				</tr>
+				<tr>
+					<th>料金</th>
+					<td>{Plans[currentPlan].price}</td>
+				</tr>
+			</table>
 			<a
-				href="#"
+				href="https://docs.google.com/forms/d/e/1FAIpQLSdr-jVJyfM-1gLJy7D6IWtzhDEN8PpZ1xqtUH-lpV5QqpjZlg/viewform?usp=sf_link"
 				className={css({
 					display: "block",
 					w: "fit-content",
