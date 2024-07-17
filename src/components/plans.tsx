@@ -228,8 +228,8 @@ export default function Plans() {
 				);
 
 				if (progress > 0) {
-					setPlacesHeaderPl(80);
-					setPlacesHeaderPr(300);
+					setPlacesHeaderPl(88);
+					setPlacesHeaderPr(308);
 				} else {
 					setPlacesHeaderPl(8);
 					setPlacesHeaderPr(8);
