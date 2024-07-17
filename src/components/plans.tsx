@@ -202,6 +202,8 @@ export default function Plans() {
 
 	const [progress, setProgress] = useState(0);
 
+	const [placesHeaderPl, setPlacesHeaderPl] = useState(8);
+	const [placesHeaderPr, setPlacesHeaderPr] = useState(8);
 	useEffect(() => {
 		const windowHeight = window.innerHeight;
 
@@ -224,6 +226,13 @@ export default function Plans() {
 					(Plans[currentPlan].places?.length ?? 1) - 1,
 				);
 
+				if (progress > 0) {
+					setPlacesHeaderPl(80);
+					setPlacesHeaderPr(300);
+				} else {
+					setPlacesHeaderPl(8);
+					setPlacesHeaderPr(8);
+				}
 				setCurrentPlace(newPlaceIndex);
 			}
 		};
@@ -233,6 +242,13 @@ export default function Plans() {
 			window.removeEventListener("scroll", handleScroll);
 		};
 	}, [currentPlan, progress]);
+
+	useEffect(() => {
+		document.documentElement.style.scrollBehavior = "smooth";
+		return () => {
+			document.documentElement.style.scrollBehavior = "auto";
+		};
+	}, []);
 
 	return (
 		<div
@@ -247,7 +263,7 @@ export default function Plans() {
 				className={css({
 					h: "500px",
 					// mb: "80px",
-					// pos: "relative",
+					pos: "relative",
 					// bg: "#F19813",
 					// bg: `url('${Plans[currentPlan].img}')`,
 				})}
@@ -399,16 +415,22 @@ export default function Plans() {
 								gap: "16px",
 								top: 0,
 								bg: "#fff",
+								transition: "all .2s",
 							})}
+							style={{
+								paddingLeft: `${placesHeaderPl}px`,
+								paddingRight: `${placesHeaderPr}px`,
+							}}
 						>
 							{Plans.map((plans, index) => (
 								<button
 									type="button"
-									key={plans.title}
+									key={`${plans.title}-${plans.subTitle}`} // 修正箇所
 									className={css({
 										display: "flex",
 										alignItems: "center",
 										justifyContent: "center",
+										flexWrap: "wrap",
 										gap: "8px",
 										h: "100%",
 										w: "100%",
@@ -585,18 +607,20 @@ export default function Plans() {
 					},
 				})}
 			>
-				<tr>
-					<th>日付</th>
-					<td>{`${Plans[currentPlan].days}(${Plans[currentPlan].periodStart}から)`}</td>
-				</tr>
-				<tr>
-					<th>募集人数</th>
-					<td>{Plans[currentPlan].people}</td>
-				</tr>
-				<tr>
-					<th>料金</th>
-					<td>{Plans[currentPlan].price}</td>
-				</tr>
+				<tbody>
+					<tr>
+						<th>日付</th>
+						<td>{`${Plans[currentPlan].days}(${Plans[currentPlan].periodStart}から)`}</td>
+					</tr>
+					<tr>
+						<th>募集人数</th>
+						<td>{Plans[currentPlan].people}</td>
+					</tr>
+					<tr>
+						<th>料金</th>
+						<td>{Plans[currentPlan].price}</td>
+					</tr>
+				</tbody>
 			</table>
 			<a
 				href="https://docs.google.com/forms/d/e/1FAIpQLSdr-jVJyfM-1gLJy7D6IWtzhDEN8PpZ1xqtUH-lpV5QqpjZlg/viewform?usp=sf_link"
