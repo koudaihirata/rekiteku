@@ -16,15 +16,22 @@ export default function Header() {
 					width: "100%",
 					zIndex: 100,
 					height: "80px",
+					pl: "4px",
 				})}
 			>
-				<Image
-					src="./header_logo.svg"
-					alt="hoge"
-					width={100}
-					height={100}
-					className={css({ margin: "5px" })}
-				/>
+				<div
+					className={css({
+						width: "80px",
+						height: "100%",
+						padding: "4px",
+					})}
+				>
+					<img
+						src="./header_logo.svg"
+						alt="logo"
+						className={css({ w: "100%", h: "100%", objectFit: "contain" })}
+					/>
+				</div>
 
 				<a
 					href="https://docs.google.com/forms/d/e/1FAIpQLSdr-jVJyfM-1gLJy7D6IWtzhDEN8PpZ1xqtUH-lpV5QqpjZlg/viewform"
