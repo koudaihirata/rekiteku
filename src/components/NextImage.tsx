@@ -1,5 +1,4 @@
 import Image from "next/image";
-import styles from "@/styles/components/next_image.module.scss";
 
 type NextImageProps = {
 	src: string;
@@ -8,13 +7,13 @@ type NextImageProps = {
 
 export default function NextImage(props: NextImageProps) {
 	return (
-		<div className={styles.container}>
+		<div style={{ position: "relative", width: "100%", height: "100%" }}>
 			<Image
+				style={{ objectFit: "cover" }}
 				src={props.src}
 				alt={props.alt}
 				fill
 				sizes="100vw"
-				className={styles.image}
 			/>
 		</div>
 	);
