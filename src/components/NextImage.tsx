@@ -7,7 +7,9 @@ type NextImageProps = {
 
 export default function NextImage(props: NextImageProps) {
 	return (
+
 		<div style={{ position: "relative", width: "100%", height: "100%" }}>
+
 			<Image
 				style={{ objectFit: "cover" }}
 				src={props.src}
