@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-// import styles from "@/styles/plans.module.scss";
 import { css } from "../../styled-system/css";
-// import "@/styles/custom-slick.scss";
+import Link from "next/link";
 
 export default function Plans() {
 	const Plans = [
@@ -64,57 +63,87 @@ export default function Plans() {
 		},
 	];
 
-	const [currentSlide, setCurrentSlide] = useState(0);
-	const placesRef = useRef<HTMLDivElement>(null);
+	const [currentPlan, setCurrentPlan] = useState(0);
+	const [currentPlace, setCurrentPlace] = useState(0);
 
 	function NextSlide() {
-		setCurrentSlide((prev) => (prev === Plans.length - 1 ? 0 : prev + 1));
+		setCurrentPlan((prev) => (prev === Plans.length - 1 ? 0 : prev + 1));
 	}
 
 	function PrevSlide() {
-		setCurrentSlide((prev) => (prev === 0 ? Plans.length - 1 : prev - 1));
+		setCurrentPlan((prev) => (prev === 0 ? Plans.length - 1 : prev - 1));
 	}
 
+	const placesRef = useRef<HTMLDivElement>(null);
+
+	const [progress, setProgress] = useState(0);
+
 	useEffect(() => {
+		const windowHeight = window.innerHeight;
+
 		const handleScroll = () => {
-			console.log("Scroll Y:", window.scrollY);
-			console.log("Scroll X:", window.scrollX);
+			if (placesRef.current) {
+				const rect = placesRef.current.getBoundingClientRect();
+				const placesTop = rect.top;
+				const placesHeight = rect.height;
+
+				const scrollPosition = window.scrollY;
+				const start = placesTop + scrollPosition;
+				const end = start + placesHeight - windowHeight;
+
+				setProgress((scrollPosition - start) / (end - start));
+				const newPlaceIndex = Math.min(
+					Math.max(
+						Math.floor(progress * (Plans[currentPlan].places?.length ?? 0)),
+						0,
+					),
+					(Plans[currentPlan].places?.length ?? 1) - 1,
+				);
+
+				setCurrentPlace(newPlaceIndex);
+			}
 		};
 		window.addEventListener("scroll", handleScroll);
-
-		if (placesRef.current) {
-			const rect = placesRef.current.getBoundingClientRect();
-			console.log("placesRef position:", rect);
-		}
 
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
 		};
-	}, []);
+	}, [currentPlan, progress]);
 
 	return (
-		<div>
+		<div
+			className={css({
+				bg: "#FFFCF1",
+				pb: "64px",
+			})}
+		>
 			<div
 				className={css({
 					h: "500px",
-					mb: "80px",
+					// mb: "80px",
 					pos: "relative",
 				})}
 			>
 				<img
-					src={Plans[currentSlide].img}
+					src={Plans[currentPlan].img}
 					alt=""
 					className={css({
 						pos: "absolute",
-						zIndex: "-1",
 						w: "100%",
 						h: "100%",
 						objectFit: "cover",
 					})}
 				/>
-				<h3>{Plans[currentSlide].title}</h3>
-				<p>{Plans[currentSlide].description}</p>
-				<p>{Plans[currentSlide].price}</p>
+				<div
+					className={css({
+						pos: "relative",
+						zIndex: "1",
+					})}
+				>
+					<h3>{Plans[currentPlan].title}</h3>
+					<p>{Plans[currentPlan].description}</p>
+					<p>{Plans[currentPlan].price}</p>
+				</div>
 				<button
 					className={css({
 						w: "40px",
@@ -163,80 +192,215 @@ export default function Plans() {
 						})}
 					/>
 				</button>
-				<div
-					className={css({
-						h: "80px",
-						w: "100%",
-						display: "flex",
-						pos: "absolute",
-						top: "100%",
-						p: "8px",
-						gap: "16px",
-					})}
-				>
-					{Plans.map((plans, index) => (
-						<button
-							type="button"
-							key={plans.title}
-							className={css({
-								display: "grid",
-								placeItems: "center",
-								h: "100%",
-								w: "100%",
-								borderRadius: "8px",
-								transition: "all .2s",
-								pos: "relative",
-								bgColor: currentSlide === index ? "#F19813" : "transparent",
-								color: currentSlide === index ? "#fff" : "inherit",
-							})}
-							onClick={() => setCurrentSlide(index)}
-						>
-							{plans.title}
-							{index !== Plans.length - 1 && (
-								<div
-									className={css({
-										pos: "absolute",
-										left: "calc(100% + 8px - 2px)",
-										content: "''",
-										w: "4px",
-										h: "80%",
-										borderRadius: "50vw",
-										bg: "#eee",
-									})}
-								/>
-							)}
-						</button>
-					))}
-				</div>
 			</div>
 			<div
 				className={css({
 					w: "100%",
-					overflowX: "hidden",
-					display: "flex",
 				})}
 				style={{
-					height: `${100 * ((Plans[currentSlide].places?.length ?? 0) + 1)}vh`,
+					height: `${100 * ((Plans[currentPlan].places?.length ?? 0) + 0)}vh`,
 				}}
 				ref={placesRef}
 			>
-				{Plans[currentSlide].places?.map((place) => (
+				<div
+					className={css({
+						w: "100%",
+						h: "100vh",
+						maxH: "100vh",
+						pos: "sticky",
+						top: 0,
+						overflow: "hidden",
+					})}
+				>
 					<div
-						key={place.name}
-						className={css({ minW: "100%", w: "100%", h: "100vh" })}
+						className={css({
+							h: "80px",
+							w: "100%",
+							display: "flex",
+							pos: "absolute",
+							p: "8px",
+							gap: "16px",
+							top: 0,
+						})}
 					>
-						<h4>{place.name}</h4>
-						<div className={css({ w: "50px", h: "50px" })}>
-							<img
-								src={place.img}
-								alt={place.name}
-								className={css({ w: "100%", h: "100%", objectFit: "cover" })}
+						{Plans.map((plans, index) => (
+							<button
+								type="button"
+								key={plans.title}
+								className={css({
+									display: "grid",
+									placeItems: "center",
+									h: "100%",
+									w: "100%",
+									borderRadius: "8px",
+									transition: "all .2s",
+									pos: "relative",
+									bgColor: currentPlan === index ? "#F19813" : "transparent",
+									color: currentPlan === index ? "#fff" : "inherit",
+								})}
+								onClick={() => setCurrentPlan(index)}
+							>
+								{plans.title}
+								{index !== Plans.length - 1 && (
+									<div
+										className={css({
+											pos: "absolute",
+											left: "calc(100% + 8px - 2px)",
+											content: "''",
+											w: "4px",
+											h: "80%",
+											borderRadius: "50vw",
+											bg: "#eee",
+										})}
+									/>
+								)}
+							</button>
+						))}
+					</div>
+					<div
+						className={css({
+							pos: "absolute",
+							bottom: "32px",
+							w: "100%",
+							h: "12px",
+							bg: "#eee",
+							// pos: "relative",
+							// overflow: "hidden",
+						})}
+					>
+						<div
+							className={css({
+								h: "100%",
+								bg: "#F19813",
+								pos: "relative",
+							})}
+							style={{ width: `${progress * 100}%` }}
+						>
+							<div
+								className={css({
+									rounded: "50%",
+									w: "24px",
+									h: "24px",
+									bottom: "50%",
+									right: "0",
+									transform: "translate(50%,50%)",
+									bg: "#F19813",
+									pos: "absolute",
+								})}
 							/>
 						</div>
-						<p>{place.description}</p>
 					</div>
-				))}
+					<div
+						className={css({
+							w: "100%",
+							h: "100%",
+							p: "144px 64px 96px",
+							pt: "",
+						})}
+					>
+						<div
+							className={css({
+								w: "100%",
+								h: "100%",
+								bg: "#F19813",
+								p: "16px",
+								rounded: "40px",
+							})}
+						>
+							{Plans[currentPlan].places?.map((place, index) => (
+								<div
+									key={place.name}
+									className={css({
+										pos: "relative",
+										w: "100%",
+										h: "100%",
+										gap: "16px",
+									})}
+									style={{
+										display: currentPlace === index ? "flex" : "none",
+									}}
+								>
+									<h4
+										className={css({
+											pos: "absolute",
+											fontSize: "40px",
+											color: "#fff",
+											bg: "#F19813",
+											roundedBottomRight: "26px",
+											roundedTopLeft: "10px",
+											fontWeight: "bold",
+											p: "0 32px",
+										})}
+									>
+										{place.name}
+									</h4>
+									<div
+										className={css({
+											w: "100%",
+											h: "100%",
+											rounded: "26px",
+											overflow: "hidden",
+										})}
+									>
+										<img
+											src={place.img}
+											alt={place.name}
+											className={css({
+												w: "100%",
+												h: "100%",
+												objectFit: "cover",
+											})}
+										/>
+									</div>
+									<p
+										className={css({
+											display: "grid",
+											placeItems: "center",
+											lineHeight: "2",
+											bg: "#fff",
+											rounded: "26px",
+											p: "16px",
+											w: "400px",
+										})}
+									>
+										{place.description}
+									</p>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
 			</div>
+			<a
+				href="#"
+				className={css({
+					display: "block",
+					w: "fit-content",
+					rounded: "8px",
+					p: "24px 64px",
+					background: "#F19813",
+					boxShadow: "0px 2px 8px 0px #F1981380",
+					m: "0 auto",
+				})}
+			>
+				<p
+					className={css({
+						// w: "320px",
+						color: "#fff",
+						fontSize: "24px",
+						fontWeight: "bold",
+					})}
+				>
+					お申し込みはこちら
+				</p>
+				<div
+					className={css({
+						w: "100%",
+						h: "2px",
+						bg: "#fff",
+					})}
+				/>
+			</a>
 		</div>
 	);
 }
