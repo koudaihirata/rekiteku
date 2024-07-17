@@ -2,8 +2,9 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { css } from "../../styled-system/css";
-import Link from "next/link";
+// import Link from "next/link";
 import { flex } from "../../styled-system/patterns";
+import { Link as ScrollLink } from "react-scroll";
 
 export default function Plans() {
 	const Plans = [
@@ -243,12 +244,12 @@ export default function Plans() {
 		};
 	}, [currentPlan, progress]);
 
-	useEffect(() => {
-		document.documentElement.style.scrollBehavior = "smooth";
-		return () => {
-			document.documentElement.style.scrollBehavior = "auto";
-		};
-	}, []);
+	// useEffect(() => {
+	// 	document.documentElement.style.scrollBehavior = "smooth";
+	// 	return () => {
+	// 		document.documentElement.style.scrollBehavior = "auto";
+	// 	};
+	// }, []);
 
 	return (
 		<div
@@ -256,7 +257,7 @@ export default function Plans() {
 			className={css({
 				bg: "#FFFCF1",
 				// pb: "64px",
-				scrollBehavior: "smooth",
+				// scrollBehavior: "smooth",
 			})}
 		>
 			<div
@@ -404,7 +405,7 @@ export default function Plans() {
 						overflow: "hidden",
 					})}
 				>
-					<a href="#plans">
+					<ScrollLink to="plans" smooth={true} offset={-80}>
 						<div
 							className={css({
 								h: "80px",
@@ -468,7 +469,7 @@ export default function Plans() {
 								</button>
 							))}
 						</div>
-					</a>
+					</ScrollLink>
 					<div
 						className={css({
 							pos: "absolute",
