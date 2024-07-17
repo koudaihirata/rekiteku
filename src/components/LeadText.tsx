@@ -13,8 +13,8 @@ export default function LeadText() {
                 _after: {
                     content:'""',
                     position:'absolute',
-                    top:'-14px',
-                    right:'8%',
+                    top:'0',
+                    right:'0',
                     width:'500px',
                     height:'500px',
                     bgImage:'url(/Footprints.svg)',
