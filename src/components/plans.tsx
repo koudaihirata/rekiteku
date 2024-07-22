@@ -77,7 +77,6 @@ export default function Plans() {
 			price: "20,000円",
 			people: "1~6人",
 
-
 			places: [
 				{
 					name: "四王寺城",
@@ -131,7 +130,8 @@ export default function Plans() {
 		},
 		{
 			title: "偉人の道のり",
-			description: "九州の戦国時代に終わりを告げる九州征伐ゆかりの武将にまつわる史跡",
+			description:
+				"九州の戦国時代に終わりを告げる九州征伐ゆかりの武将にまつわる史跡",
 			img: "/plans/plan3.jpg",
 			days: "日帰り",
 			price: "10,000円",
@@ -171,7 +171,7 @@ export default function Plans() {
 			days: "日帰り",
 			price: "10,000円",
 			people: "1~6人",
-	
+
 			places: [
 				{
 					name: "鴻臚館",
@@ -602,7 +602,7 @@ export default function Plans() {
 			<table
 				className={css({
 					m: "32px auto",
-					fontSize: "18px",
+					fontSize: "22px",
 					"& th": {
 						p: "16px 0",
 						textAlignLast: "justify",
@@ -632,7 +632,12 @@ export default function Plans() {
 					</tr>
 					<tr>
 						<th>料金</th>
-						<td>{Plans[currentPlan].price}{' / 1人'}<br />{'(食費・宿泊費は含みません)'}</td>
+						<td>
+							{Plans[currentPlan].price}
+							{" / 1人"}
+							<br />
+							{"(食費・宿泊費は含みません)"}
+						</td>
 					</tr>
 				</tbody>
 			</table>
