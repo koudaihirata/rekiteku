@@ -13,8 +13,7 @@ export default function Plans() {
 			subTitle: "古代〜平安",
 			description: "古代から平安まで、時間の流れに沿って学べる博多旅行",
 			img: "/plans/plan1.jpg",
-			days: "2泊3日",
-			periodStart: "2024年1月1日",
+			days: "1泊2日",
 			price: "20,000円",
 			people: "1~6人",
 
@@ -72,7 +71,11 @@ export default function Plans() {
 		{
 			title: "博多の歴史",
 			subTitle: "室町〜江戸",
-			img: "/plans/plan1.jpg",
+			description: "室町から江戸まで、時間の流れに沿って学べる博多旅行",
+			img: "/plans/plan2.jpg",
+			days: "1泊2日",
+			price: "20,000円",
+			people: "1~6人",
 
 			places: [
 				{
@@ -127,7 +130,13 @@ export default function Plans() {
 		},
 		{
 			title: "偉人の道のり",
-			img: "/plans/plan1.jpg",
+			description:
+				"九州の戦国時代に終わりを告げる九州征伐ゆかりの武将にまつわる史跡",
+			img: "/plans/plan3.jpg",
+			days: "日帰り",
+			price: "10,000円",
+			people: "1~6人",
+
 			places: [
 				{
 					name: "立花山城",
@@ -157,8 +166,12 @@ export default function Plans() {
 		},
 		{
 			title: "海外に開かれた町",
-			img: "/plans/plan1.jpg",
-			price: 4000,
+			description: "福岡にある海外との関連史跡",
+			img: "/plans/plan4.jpg",
+			days: "日帰り",
+			price: "10,000円",
+			people: "1~6人",
+
 			places: [
 				{
 					name: "鴻臚館",
@@ -228,8 +241,8 @@ export default function Plans() {
 				);
 
 				if (progress > 0) {
-					setPlacesHeaderPl(80);
-					setPlacesHeaderPr(300);
+					setPlacesHeaderPl(88);
+					setPlacesHeaderPr(308);
 				} else {
 					setPlacesHeaderPl(8);
 					setPlacesHeaderPr(8);
@@ -270,7 +283,7 @@ export default function Plans() {
 				})}
 				style={{
 					// background: `url('${Plans[currentPlan].img}') center center / cover`,
-					background: `linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), url('${Plans[currentPlan].img}') center center / cover`,
+					background: `linear-gradient(0deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%), url('${Plans[currentPlan].img}') center center / cover`,
 				}}
 			>
 				{/* <img
@@ -291,7 +304,7 @@ export default function Plans() {
 				>
 					<div
 						className={css({
-							p: "16px",
+							p: "48px 96px",
 							color: "#fff",
 							fontWeight: "bold",
 							lineHeight: 1,
@@ -330,7 +343,7 @@ export default function Plans() {
 						</p>
 						<p
 							className={css({
-								// lineHeight: 0,
+								fontSize: "18px",
 							})}
 						>
 							{Plans[currentPlan].description}
@@ -507,7 +520,7 @@ export default function Plans() {
 						className={css({
 							w: "100%",
 							h: "100%",
-							p: "144px 64px 96px",
+							p: "144px 10% 96px",
 							pt: "",
 						})}
 					>
@@ -589,7 +602,7 @@ export default function Plans() {
 			<table
 				className={css({
 					m: "32px auto",
-					fontSize: "18px",
+					fontSize: "22px",
 					"& th": {
 						p: "16px 0",
 						textAlignLast: "justify",
@@ -611,7 +624,7 @@ export default function Plans() {
 				<tbody>
 					<tr>
 						<th>日付</th>
-						<td>{`${Plans[currentPlan].days}(${Plans[currentPlan].periodStart}から)`}</td>
+						<td>{Plans[currentPlan].days}</td>
 					</tr>
 					<tr>
 						<th>募集人数</th>
@@ -619,7 +632,12 @@ export default function Plans() {
 					</tr>
 					<tr>
 						<th>料金</th>
-						<td>{Plans[currentPlan].price}</td>
+						<td>
+							{Plans[currentPlan].price}
+							{" / 1人"}
+							<br />
+							{"(食費・宿泊費は含みません)"}
+						</td>
 					</tr>
 				</tbody>
 			</table>
